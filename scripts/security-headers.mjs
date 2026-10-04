@@ -50,6 +50,7 @@ export const cacheRules = [
   ['/assets/*', 'public, max-age=31536000, immutable'],
   ['/models/*', 'public, max-age=2592000'],
   ['/images/*', 'public, max-age=2592000'],
+  ['/video/*', 'public, max-age=604800'],
   ['/cv.pdf', 'public, max-age=3600'],
   ['/index.html', 'no-cache'],
 ]

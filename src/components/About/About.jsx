@@ -69,6 +69,28 @@ function ActivityCard({ activity }) {
   )
 }
 
+function useGithubStats(username) {
+  const [stats, setStats] = useState(null)
+  useEffect(() => {
+    let cancelled = false
+    fetch(`https://api.github.com/users/${username}`)
+      .then((res) => (res.ok ? res.json() : null))
+      .then((data) => {
+        if (!cancelled && data) {
+          setStats({
+            publicRepos: data.public_repos,
+            sinceYear: new Date(data.created_at).getFullYear(),
+          })
+        }
+      })
+      .catch(() => {})
+    return () => {
+      cancelled = true
+    }
+  }, [username])
+  return stats
+}
+
 // Show the CV button only when a real PDF is served (a missing file would
 // otherwise fall back to index.html on SPA hosts and download a broken "pdf").
 function useFileExists(href) {
@@ -90,6 +112,18 @@ function useFileExists(href) {
 export default function About() {
   const { eyebrow, name, tagline, intro, cta, cv, card, roles, activity } = aboutContent
   const hasCv = useFileExists(cv.href)
+  const stats = useGithubStats('Khairul122')
+
+  const sinceYear = stats?.sinceYear ?? 2021
+  const repoCount = stats?.publicRepos ?? 203
+
+  const dynamicIntro = intro.map((p) =>
+    p.replace(/\d+\s+public repositories/i, `${repoCount} public repositories`)
+  )
+  const dynamicCard = {
+    ...card,
+    since: `GITHUB SINCE ${sinceYear}`,
+  }
 
   return (
     <section id="about" className={styles.about}>
@@ -102,7 +136,7 @@ export default function About() {
             <RevealText lines={name} />
           </h2>
           <span className={styles.tagline}>{tagline}</span>
-          {intro.map((p) => (
+          {dynamicIntro.map((p) => (
             <p key={p} className={styles.intro}>
               {p}
             </p>
@@ -120,7 +154,7 @@ export default function About() {
         </motion.div>
 
         <div className={styles.lanyardCol}>
-          <Lanyard card={card} />
+          <Lanyard card={dynamicCard} />
         </div>
 
         <div className={styles.grid}>

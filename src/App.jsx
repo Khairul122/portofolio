@@ -3,6 +3,7 @@ import About from './components/About/About'
 import Capabilities from './components/Capabilities/Capabilities'
 import Contact from './components/Contact/Contact'
 import Footer from './components/Footer/Footer'
+import IntroVideo from './components/IntroVideo/IntroVideo'
 import Hero from './components/Hero/Hero'
 import Layer from './components/Shared/Layer'
 import SectionNav from './components/Shared/SectionNav'
@@ -21,6 +22,7 @@ const LAYERS = [
   { id: 'hero', Section: Hero, ref: createRef() },
   { id: 'about', Section: About, ref: createRef() },
   { id: 'capabilities', Section: Capabilities, ref: createRef() },
+  { id: 'intro', Section: IntroVideo, ref: createRef() },
   { id: 'contact', Section: ContactLayer, ref: createRef() },
 ]
 

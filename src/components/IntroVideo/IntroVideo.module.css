@@ -1,0 +1,199 @@
+/* Deep red layer between the light Capabilities layer and the dark Contact layer.
+   Darker than the brand red so small white text keeps AA contrast. */
+.section {
+  --round: clamp(22px, 3.2vw, 44px);
+  position: relative;
+  background: #b0241c;
+  color: var(--color-white);
+  padding: 120px 48px;
+  border-radius: var(--round) var(--round) 0 0;
+  box-shadow: 0 -30px 70px rgba(0, 0, 0, 0.35);
+}
+
+.inner {
+  max-width: 1440px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+  gap: 56px;
+  align-items: center;
+}
+
+.eyebrow {
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+}
+
+.hash {
+  color: var(--color-black);
+}
+
+.title {
+  margin: 18px 0 0;
+  display: flex;
+  flex-direction: column;
+  transform: skewX(-3deg);
+  font-size: clamp(2.6rem, 5vw, 4rem);
+  font-weight: 900;
+  line-height: 0.94;
+  letter-spacing: -0.01em;
+}
+
+.intro {
+  margin: 20px 0 0;
+  max-width: 460px;
+  font-size: 0.95rem;
+  line-height: 1.6;
+}
+
+.chapters {
+  list-style: none;
+  margin: 28px 0 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  max-width: 520px;
+}
+
+.chapter {
+  position: relative;
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 14px;
+  width: 100%;
+  padding: 12px 18px;
+  font: inherit;
+  text-align: left;
+  color: var(--color-white);
+  background: rgba(0, 0, 0, 0.14);
+  border: 0;
+  clip-path: polygon(12px 0, 100% 0, 100% calc(100% - 12px), calc(100% - 12px) 100%, 0 100%, 0 12px);
+  cursor: pointer;
+  overflow: hidden;
+  transition: background 0.3s ease, color 0.3s ease, transform 0.3s ease;
+}
+
+.chapter:hover {
+  background: rgba(0, 0, 0, 0.26);
+}
+
+.chapterActive,
+.chapterActive:hover {
+  background: var(--color-white);
+  color: var(--color-black);
+  transform: translateX(10px);
+}
+
+.num {
+  --stroke: var(--color-white);
+  min-width: 2ch;
+  font-size: 1.3rem;
+  font-weight: 900;
+  line-height: 1;
+  color: transparent;
+  -webkit-text-stroke: 1.5px var(--stroke);
+  transition: color 0.3s ease;
+}
+
+.chapterActive .num {
+  --stroke: #b0241c;
+  color: #b0241c;
+}
+
+.text {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.chTitle {
+  font-size: 0.8rem;
+  font-weight: 900;
+  letter-spacing: 0.1em;
+}
+
+.chInfo {
+  font-size: 0.8rem;
+  line-height: 1.35;
+}
+
+.stamp {
+  font-size: 0.7rem;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  font-variant-numeric: tabular-nums;
+}
+
+.bar {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 3px;
+  background: #b0241c;
+  transform-origin: left;
+  transition: transform 0.25s linear;
+}
+
+.chapter:not(.chapterActive) .bar {
+  background: var(--color-white);
+  opacity: 0.55;
+}
+
+.stage {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.now {
+  display: flex;
+  align-items: baseline;
+  gap: 14px;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+}
+
+.nowLabel {
+  font-size: 0.62rem;
+  opacity: 0.85;
+}
+
+.nowTitle {
+  font-size: 0.9rem;
+}
+
+.nowTime {
+  margin-left: auto;
+  font-size: 0.75rem;
+  font-variant-numeric: tabular-nums;
+}
+
+.frame {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  background: var(--color-black);
+  clip-path: polygon(36px 0, 100% 0, 100% calc(100% - 36px), calc(100% - 36px) 100%, 0 100%, 0 36px);
+}
+
+.video {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+@media (max-width: 1023px) {
+  .section {
+    padding: 80px 20px;
+  }
+
+  .inner {
+    grid-template-columns: 1fr;
+    gap: 36px;
+  }
+}

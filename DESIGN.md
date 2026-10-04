@@ -162,6 +162,8 @@ Setiap section adalah **layer** (`src/components/Shared/Layer.jsx`) di dalam `<m
 - **Tombol Download CV:** hanya tampil bila `/cv.pdf` benar-benar ada dan bertipe PDF (letakkan berkas di `public/cv.pdf`). Tanpa pengecekan, hosting SPA akan mengembalikan `index.html` dan mengunduh "pdf" rusak.
 - **Contact dan Footer:** `Contact/contactContent.js` hanya berisi kanal asli (GitHub). Email, WhatsApp, atau LinkedIn cukup ditambah sebagai entri baru di `channels`; kartu muncul otomatis, dengan tombol salin bila ada `copy`. Footer memakai `sections.js` untuk tautannya.
 
+- **Intro video (Remotion):** sumber di `video/` (`data.js` berisi semua angka dan teks, `Recap.jsx` adegannya, `Root.jsx` dua komposisi dari satu komponen: 16:9 dan 9:16). Ubah `data.js` lalu render ulang dengan `npm run video:render` (hasil: `public/video/recap-16x9|9x16.mp4` dan poster `.jpg`); preview dengan `npm run video:studio`. Render pertama mengunduh Chromium; bila diblokir, set `REMOTION_BROWSER` ke path Chrome/Edge. Angka di video harus tetap angka asli dari repo GitHub (aturan bagian 9). Section `IntroVideo/` memuat video hanya saat dekat viewport, memutarnya hanya saat terlihat dan tidak tertutup layer berikutnya, dan tidak autoplay bila `prefers-reduced-motion`. Latar merah tua `#b0241c` (bukan merah brand) supaya teks kecil putih lolos kontras AA. Lisensi Remotion: gratis untuk individu dan tim kecil, cek syarat bila dipakai komersial.
+
 ## 12b. Aturan performa
 
 Hal-hal berikut pernah membuat situs berat. Jangan diulang di section baru.
