@@ -1,0 +1,274 @@
+/* Dark layer that slides over the light Capabilities layer. */
+.contact {
+  --round: clamp(22px, 3.2vw, 44px);
+  position: relative;
+  background: var(--color-black);
+  color: var(--color-white);
+  padding: 120px 48px 100px;
+  border-radius: var(--round) var(--round) 0 0;
+  box-shadow: 0 -30px 70px rgba(0, 0, 0, 0.35);
+}
+
+.inner {
+  display: grid;
+  grid-template-columns: minmax(280px, 460px) 1fr;
+  gap: 64px;
+  align-items: start;
+  max-width: 1440px;
+  margin: 0 auto;
+}
+
+.copyCol {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.eyebrow {
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+}
+
+.hash {
+  color: var(--color-red);
+}
+
+.title {
+  margin: 18px 0 0;
+  display: flex;
+  flex-direction: column;
+  transform: skewX(-3deg);
+  font-size: clamp(2.6rem, 5vw, 4rem);
+  font-weight: 900;
+  line-height: 0.94;
+  letter-spacing: -0.01em;
+}
+
+.intro {
+  margin: 22px 0 28px;
+  max-width: 420px;
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.72);
+}
+
+.primary {
+  display: inline-block;
+  border-radius: 8px;
+  padding: 16px 26px;
+  background: var(--color-red);
+  color: var(--color-white);
+  font-size: 0.8rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-decoration: none;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+.primary::after {
+  content: ' \2197';
+}
+
+.primary:hover,
+.primary:focus-visible {
+  background: var(--color-white);
+  color: var(--color-black);
+}
+
+.channels {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.channel {
+  position: relative;
+  display: flex;
+  align-items: stretch;
+  background: var(--color-card-bg);
+  color: var(--color-black);
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  clip-path: polygon(22px 0, 100% 0, 100% calc(100% - 22px), calc(100% - 22px) 100%, 0 100%, 0 22px);
+}
+
+.channel::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    260px circle at var(--mx, 50%) var(--my, -60%),
+    color-mix(in srgb, var(--color-red) 14%, transparent),
+    transparent 70%
+  );
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+}
+
+.channel:hover::after {
+  opacity: 1;
+}
+
+.channelLink {
+  position: relative;
+  flex: 1;
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  grid-template-areas:
+    'icon label arrow'
+    'icon value arrow'
+    'icon note arrow';
+  column-gap: 18px;
+  padding: 22px 28px;
+  color: inherit;
+  text-decoration: none;
+}
+
+.icon {
+  grid-area: icon;
+  align-self: center;
+  display: grid;
+  place-items: center;
+  width: 54px;
+  height: 54px;
+  border-radius: 14px;
+  background: var(--color-black);
+  color: var(--color-white);
+  font-size: 1.5rem;
+  transition: transform 0.25s ease, background 0.25s ease;
+}
+
+.channelLink:hover .icon,
+.channelLink:focus-visible .icon {
+  background: var(--brand);
+  transform: rotate(-6deg) scale(1.06);
+}
+
+.channelLabel {
+  grid-area: label;
+  font-size: 0.66rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  color: var(--color-red);
+}
+
+.channelValue {
+  grid-area: value;
+  margin-top: 4px;
+  font-size: 1.25rem;
+  font-weight: 900;
+  letter-spacing: -0.005em;
+}
+
+.channelNote {
+  grid-area: note;
+  margin-top: 2px;
+  font-size: 0.8rem;
+  color: var(--color-gray);
+}
+
+.arrow {
+  grid-area: arrow;
+  align-self: center;
+  width: 38px;
+  height: 38px;
+  border: 1.5px solid var(--color-black);
+  border-radius: 50%;
+  position: relative;
+  transition: background 0.25s ease, border-color 0.25s ease, transform 0.25s ease;
+}
+
+.arrow::before {
+  content: '\2197';
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  font-size: 1rem;
+  font-weight: 800;
+  transition: color 0.25s ease;
+}
+
+.channelLink:hover .arrow,
+.channelLink:focus-visible .arrow {
+  background: var(--color-red);
+  border-color: var(--color-red);
+  transform: rotate(45deg);
+}
+
+.channelLink:hover .arrow::before,
+.channelLink:focus-visible .arrow::before {
+  color: var(--color-white);
+}
+
+.copy {
+  position: relative;
+  z-index: 1;
+  min-width: 112px;
+  padding: 0 18px;
+  border: 0;
+  border-left: 1px solid rgba(0, 0, 0, 0.08);
+  background: transparent;
+  font: inherit;
+  font-size: 0.66rem;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  color: var(--color-gray);
+  cursor: pointer;
+  transition: color 0.2s ease, background 0.2s ease;
+}
+
+.copy:hover,
+.copy:focus-visible {
+  color: var(--color-black);
+  background: rgba(0, 0, 0, 0.04);
+}
+
+@media (max-width: 1023px) {
+  .contact {
+    padding: 80px 20px 72px;
+  }
+
+  .inner {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+}
+
+@media (max-width: 680px) {
+  .channel {
+    flex-direction: column;
+  }
+
+  .channelLink {
+    min-width: 0;
+    padding: 18px 20px;
+    column-gap: 14px;
+  }
+
+  .icon {
+    width: 46px;
+    height: 46px;
+    font-size: 1.25rem;
+  }
+
+  .channelValue {
+    font-size: 1.05rem;
+    overflow-wrap: anywhere;
+  }
+
+  .copy {
+    min-height: 44px;
+    border-left: 0;
+    border-top: 1px solid rgba(0, 0, 0, 0.08);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .arrow,
+  .icon,
+  .primary {
+    transition: none;
+  }
+}

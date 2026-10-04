@@ -1,0 +1,11 @@
+.mask {
+  display: block;
+  /* padding keeps caps and descenders from being clipped by the mask */
+  overflow: hidden;
+  padding: 0.08em 0.04em;
+  margin: -0.08em -0.04em;
+}
+
+.line {
+  display: block;
+}

@@ -1,0 +1,134 @@
+.card {
+  position: relative;
+  width: 100%;
+  max-width: 460px;
+  background: var(--color-card-bg);
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  clip-path: polygon(24px 0, 100% 0, 100% calc(100% - 24px), calc(100% - 24px) 100%, 0 100%, 0 24px);
+  padding: 26px 28px;
+}
+
+.card::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    240px circle at var(--mx, 50%) var(--my, -60%),
+    color-mix(in srgb, var(--color-red) 13%, transparent),
+    transparent 70%
+  );
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+}
+
+.card:hover::after {
+  opacity: 1;
+}
+
+.tickMark {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  width: 26px;
+  height: 8px;
+  background: repeating-linear-gradient(
+    115deg,
+    var(--color-red) 0px,
+    var(--color-red) 2px,
+    transparent 2px,
+    transparent 6px
+  );
+}
+
+.topRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 22px;
+}
+
+.label {
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  color: var(--color-black);
+}
+
+.badge {
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  color: var(--color-red);
+  border: 1px solid color-mix(in srgb, var(--color-red) 30%, transparent);
+  border-radius: 999px;
+  padding: 3px 11px;
+  white-space: nowrap;
+}
+
+.barList {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.barRow {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.barLabel {
+  font-size: 0.66rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: var(--color-gray);
+}
+
+.barLine {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.barValue {
+  flex-shrink: 0;
+  min-width: 44px;
+  font-size: 1.7rem;
+  font-weight: 900;
+  font-style: italic;
+  font-variant-numeric: tabular-nums;
+  color: var(--color-red);
+  line-height: 1;
+}
+
+.track {
+  flex: 1;
+  height: 8px;
+  background: rgba(0, 0, 0, 0.08);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.fill {
+  height: 100%;
+  background: var(--color-red);
+  border-radius: 4px;
+}
+
+.edition {
+  display: block;
+  margin-top: 24px;
+  padding-top: 16px;
+  border-top: 1px solid rgba(0, 0, 0, 0.08);
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  color: var(--color-red);
+}
+
+@media (max-width: 1023px) {
+  .card {
+    max-width: 100%;
+  }
+}

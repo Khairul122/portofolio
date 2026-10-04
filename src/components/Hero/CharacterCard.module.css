@@ -1,0 +1,237 @@
+.card {
+  position: relative;
+  width: 100%;
+  max-width: 460px;
+  background: var(--color-card-bg);
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  clip-path: polygon(24px 0, 100% 0, 100% calc(100% - 24px), calc(100% - 24px) 100%, 0 100%, 0 24px);
+  padding: 26px 28px;
+}
+
+.card::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    240px circle at var(--mx, 50%) var(--my, -60%),
+    color-mix(in srgb, var(--color-red) 13%, transparent),
+    transparent 70%
+  );
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+}
+
+.card:hover::after {
+  opacity: 1;
+}
+
+.tickMark {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  width: 26px;
+  height: 8px;
+  background: repeating-linear-gradient(
+    115deg,
+    var(--color-red) 0px,
+    var(--color-red) 2px,
+    transparent 2px,
+    transparent 6px
+  );
+}
+
+.topRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 14px;
+}
+
+.label {
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  color: var(--color-gray);
+}
+
+.draftBadge {
+  font-size: 0.7rem;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  color: var(--color-red);
+  border: 1px solid color-mix(in srgb, var(--color-red) 30%, transparent);
+  border-radius: 999px;
+  padding: 3px 11px;
+}
+
+.title {
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  transform: skewX(-3deg);
+  font-size: clamp(1.9rem, 3.4vw, 2.5rem);
+  font-weight: 900;
+  line-height: 0.96;
+  letter-spacing: -0.01em;
+  text-transform: uppercase;
+  color: var(--color-black);
+}
+
+.nickname {
+  display: inline-block;
+  align-self: flex-start;
+  margin-top: 12px;
+  transform: skewX(-3deg);
+  background: var(--color-red);
+  color: var(--color-white);
+  font-size: 0.8rem;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  padding: 5px 16px;
+}
+
+.bio {
+  margin: 14px 0 0;
+  font-size: 0.85rem;
+  line-height: 1.45;
+  color: var(--color-gray);
+}
+
+.body {
+  /* fixed floor so switching tabs doesn't make the card jump in height */
+  min-height: 118px;
+  margin-top: 20px;
+  padding-top: 16px;
+  border-top: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+.statsRow {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.lineList {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.aboutLine {
+  font-size: 0.82rem;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  color: var(--color-black);
+}
+
+.aboutLine:first-child {
+  color: var(--color-red);
+}
+
+.contactLink {
+  display: block;
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  border-radius: 8px;
+  padding: 7px 12px;
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  color: var(--color-black);
+  text-decoration: none;
+  transition: color 0.2s ease, border-color 0.2s ease;
+}
+
+.contactLink::after {
+  content: ' \2197';
+}
+
+.contactLink:hover,
+.contactLink:focus-visible {
+  color: var(--color-red);
+  border-color: var(--color-red);
+}
+
+.statList {
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+  flex: 1;
+  min-width: 0;
+}
+
+.statLine {
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  line-height: 1.35;
+  color: var(--color-black);
+}
+
+.tagList {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 7px;
+  font-size: 0.9rem;
+  font-weight: 800;
+  letter-spacing: 0.02em;
+  color: var(--color-red);
+  text-align: right;
+}
+
+.tabs {
+  display: flex;
+  gap: 8px;
+  margin-top: 22px;
+}
+
+.tab {
+  flex: 1;
+  text-align: center;
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  border-radius: 8px;
+  padding: 9px 8px;
+  font: inherit;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  color: var(--color-gray);
+  background: var(--color-white);
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  transition: color 0.2s ease, border-color 0.2s ease;
+}
+
+.tabLabel {
+  position: relative;
+}
+
+.tabPill {
+  position: absolute;
+  inset: 0;
+  background: var(--color-black);
+}
+
+.tab:hover {
+  border-color: var(--color-black);
+  color: var(--color-black);
+}
+
+.tabActive:hover {
+  color: var(--color-white);
+}
+
+.tabActive {
+  background: transparent;
+  border-color: var(--color-black);
+  color: var(--color-white);
+}
+
+@media (max-width: 1023px) {
+  .card {
+    max-width: 100%;
+  }
+}

@@ -1,0 +1,26 @@
+.layer {
+  position: sticky;
+  /* A layer taller than the viewport pins by its bottom edge so it can still
+     be read in full before the next layer covers it. */
+  top: min(0px, calc(100svh - var(--layer-h, 100svh)));
+}
+
+.flat {
+  position: relative;
+  top: auto;
+}
+
+.content {
+  position: relative;
+  transform-origin: 50% 100%;
+  will-change: transform;
+}
+
+.dim {
+  position: absolute;
+  inset: 0;
+  z-index: 50;
+  background: #000;
+  opacity: 0;
+  pointer-events: none;
+}

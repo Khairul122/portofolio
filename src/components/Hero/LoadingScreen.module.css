@@ -1,0 +1,80 @@
+.overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  background: var(--color-black);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 18px;
+}
+
+.spinner {
+  width: 90px;
+  height: auto;
+  animation:
+    decorScreenSpin 2.4s linear infinite,
+    decorScreenPulse 1.6s ease-in-out infinite;
+  filter: drop-shadow(0 0 14px color-mix(in srgb, var(--color-red) 65%, transparent));
+}
+
+@keyframes decorScreenSpin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes decorScreenPulse {
+  0%,
+  100% {
+    opacity: 0.6;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+.label {
+  margin: 0;
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  color: var(--color-white);
+  text-transform: uppercase;
+}
+
+.bracket {
+  color: var(--color-red);
+  margin-right: 6px;
+}
+
+.barTrack {
+  width: 220px;
+  height: 4px;
+  background: rgba(255, 255, 255, 0.12);
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.barFill {
+  height: 100%;
+  background: var(--color-red);
+  transition: width 0.2s ease-out;
+}
+
+.percent {
+  margin: 0;
+  font-size: 0.75rem;
+  color: var(--color-gray);
+  font-variant-numeric: tabular-nums;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .spinner {
+    animation: none;
+  }
+}

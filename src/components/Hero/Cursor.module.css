@@ -1,0 +1,14 @@
+.ring {
+  /* offset by margin, not transform, so framer-motion's translate stays clean */
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 100;
+  width: 34px;
+  height: 34px;
+  margin: -17px 0 0 -17px;
+  border: 1.5px solid var(--color-red);
+  border-radius: 50%;
+  background: color-mix(in srgb, var(--color-red) 10%, transparent);
+  pointer-events: none;
+}

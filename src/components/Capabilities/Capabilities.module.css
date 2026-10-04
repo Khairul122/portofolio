@@ -1,0 +1,232 @@
+/* Light layer that slides over the dark About layer. */
+.section {
+  --round: clamp(22px, 3.2vw, 44px);
+  position: relative;
+  background: #e9ebee;
+  color: var(--color-black);
+  padding: 120px 48px;
+  border-radius: var(--round) var(--round) 0 0;
+  box-shadow: 0 -30px 70px rgba(0, 0, 0, 0.35);
+}
+
+.inner {
+  max-width: 1440px;
+  margin: 0 auto;
+}
+
+.header {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  margin-bottom: 48px;
+}
+
+.eyebrow {
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+}
+
+.hash {
+  color: var(--color-red);
+}
+
+.title {
+  margin: 18px 0 0;
+  display: flex;
+  flex-direction: column;
+  transform: skewX(-3deg);
+  font-size: clamp(2.6rem, 5vw, 4rem);
+  font-weight: 900;
+  line-height: 0.94;
+  letter-spacing: -0.01em;
+}
+
+.intro {
+  margin: 20px 0 0;
+  max-width: 520px;
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: var(--color-gray);
+}
+
+.filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 28px;
+}
+
+.filter {
+  position: relative;
+  overflow: hidden;
+  border: 1px solid rgba(0, 0, 0, 0.14);
+  border-radius: 8px;
+  padding: 9px 16px;
+  font: inherit;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  color: var(--color-gray);
+  background: var(--color-white);
+  cursor: pointer;
+  transition: color 0.2s ease, border-color 0.2s ease;
+}
+
+.filter:hover {
+  border-color: var(--color-black);
+  color: var(--color-black);
+}
+
+.filterActive,
+.filterActive:hover {
+  background: transparent;
+  border-color: var(--color-black);
+  color: var(--color-white);
+}
+
+.filterLabel {
+  position: relative;
+}
+
+.filterPill {
+  position: absolute;
+  inset: 0;
+  background: var(--color-black);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 24px;
+}
+
+.card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  background: var(--color-card-bg);
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  clip-path: polygon(24px 0, 100% 0, 100% calc(100% - 24px), calc(100% - 24px) 100%, 0 100%, 0 24px);
+  padding: 28px;
+}
+
+.card::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    240px circle at var(--mx, 50%) var(--my, -60%),
+    color-mix(in srgb, var(--color-red) 13%, transparent),
+    transparent 70%
+  );
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+}
+
+.card:hover::after {
+  opacity: 1;
+}
+
+.tickMark {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  width: 26px;
+  height: 8px;
+  background: repeating-linear-gradient(
+    115deg,
+    var(--color-red) 0px,
+    var(--color-red) 2px,
+    transparent 2px,
+    transparent 6px
+  );
+}
+
+.cardTitle {
+  margin: 8px 0 0;
+  font-size: 1.1rem;
+  font-weight: 900;
+  letter-spacing: 0.02em;
+}
+
+.desc {
+  margin: 10px 0 0;
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+
+.stack {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 16px;
+}
+
+.tag {
+  font-size: 0.66rem;
+  font-weight: 800;
+  letter-spacing: 0.05em;
+  color: var(--color-red);
+  border: 1px solid color-mix(in srgb, var(--color-red) 30%, transparent);
+  border-radius: 999px;
+  padding: 3px 10px;
+}
+
+.examples {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 6px;
+  margin-top: auto;
+  padding-top: 18px;
+}
+
+.examplesLabel {
+  margin-bottom: 4px;
+  padding-top: 14px;
+  width: 100%;
+  border-top: 1px solid rgba(0, 0, 0, 0.08);
+  font-size: 0.62rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  color: var(--color-gray);
+}
+
+.repo {
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: var(--color-black);
+  text-decoration: none;
+  overflow-wrap: anywhere;
+  transition: color 0.2s ease;
+}
+
+.repo::after {
+  content: ' \2197';
+  color: var(--color-gray);
+}
+
+.repo:hover,
+.repo:focus-visible {
+  color: var(--color-red);
+}
+
+@media (max-width: 1280px) {
+  .grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 1023px) {
+  .section {
+    padding: 80px 20px 80px;
+  }
+}
+
+@media (max-width: 680px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+}
