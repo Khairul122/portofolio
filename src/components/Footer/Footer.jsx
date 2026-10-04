@@ -4,10 +4,11 @@ import { scrollToLayer } from '../Shared/scrollToLayer'
 import { SECTIONS } from '../Shared/sections'
 import styles from './Footer.module.css'
 
+const YEAR = new Date().getFullYear()
+
 export default function Footer() {
   const reduce = useReducedMotion()
   const { name, roles, built, repo } = footerContent
-  const year = new Date().getFullYear()
 
   return (
     <footer className={styles.footer}>
@@ -49,7 +50,7 @@ export default function Footer() {
 
       <div className={styles.bar}>
         <span>
-          &copy; {year} {name}
+          &copy; {YEAR} {name}
         </span>
         <a href={repo} target="_blank" rel="noopener noreferrer">
           {built}

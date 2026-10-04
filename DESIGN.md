@@ -12,7 +12,7 @@ Tema "workspace developer futuristik": putih bersih, hitam, satu warna aksen teg
 - `@react-three/fiber` + `@react-three/drei` + `three` untuk karakter 3D
 - `framer-motion` untuk semua animasi UI
 - CSS Modules polos (tanpa Tailwind). Satu file `.module.css` per komponen
-- Font: Inter 400 sampai 800 (Google Fonts, dimuat di `index.html`)
+- Font: Inter Variable, di-self-host lewat `@fontsource-variable/inter` (diimpor di `main.jsx`); tidak ada Google Fonts
 
 ## 3. Design tokens
 
@@ -174,6 +174,10 @@ Hal-hal berikut pernah membuat situs berat. Jangan diulang di section baru.
 - **Partikel (canvas 2D)** hanya jalan saat terlihat (`IntersectionObserver`), `dpr` 1, jumlah kecil.
 - **Gambar:** background memakai WebP (`hero-bg.webp`, 110KB; PNG asli di `scripts/image-source/`). Model GLB dikompres (bagian 8).
 - Elemen yang di-tilt atau diparallax diberi `will-change: transform`.
+
+## 12d. Keamanan
+
+Detail lengkap di [SECURITY.md](SECURITY.md). Aturan untuk section baru: jangan pakai `dangerouslySetInnerHTML`, jangan memuat skrip, font, atau gambar dari domain luar tanpa menambahkannya ke CSP (`scripts/security-headers.mjs`), dan beri `rel="noopener noreferrer"` pada tautan `target="_blank"`. Setelah menambah fitur, jalankan `npm run build && npm run preview` dan cek console dari pesan "Content Security Policy".
 
 ## 13. Catatan teknis yang pernah jadi masalah
 

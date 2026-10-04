@@ -1,0 +1,5 @@
+# Where to report a security issue with this site.
+Contact: https://www.linkedin.com/in/khairul-huda-675824193/
+Expires: 2027-10-04T00:00:00.000Z
+Preferred-Languages: id, en
+Canonical: /.well-known/security.txt
