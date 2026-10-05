@@ -1,0 +1,54 @@
+/* Inherits the section's text colour, so it works on light and dark layers. */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 16px;
+  font-size: 0.62rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  opacity: 0.85;
+}
+
+.badge i {
+  position: relative;
+  width: 8px;
+  height: 8px;
+  background: #8d93a0;
+  border-radius: 50%;
+}
+
+.badge[data-status='live'] i {
+  background: #14803f;
+}
+
+.badge[data-status='loading'] i {
+  background: #d97706;
+}
+
+.badge[data-status='offline'] i {
+  background: var(--color-red);
+}
+
+.badge[data-status='live'] i::after,
+.badge[data-status='loading'] i::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: inherit;
+  animation: ping 1.8s ease-out infinite;
+}
+
+@keyframes ping {
+  to {
+    transform: scale(2.8);
+    opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .badge i::after {
+    animation: none;
+  }
+}

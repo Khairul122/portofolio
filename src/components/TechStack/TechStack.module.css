@@ -1,0 +1,277 @@
+/* Light layer: language bubbles on the left, details panel on the right. */
+.section {
+  --round: clamp(22px, 3.2vw, 44px);
+  position: relative;
+  background: #e9ebee;
+  color: var(--color-black);
+  padding: 120px 48px;
+  border-radius: var(--round) var(--round) 0 0;
+  box-shadow: 0 -30px 70px rgba(0, 0, 0, 0.35);
+}
+
+.inner {
+  max-width: 1440px;
+  margin: 0 auto;
+}
+
+.header {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  margin-bottom: 40px;
+}
+
+.eyebrow {
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+}
+
+.hash {
+  color: var(--color-red);
+}
+
+.title {
+  margin: 18px 0 0;
+  display: flex;
+  flex-direction: column;
+  transform: skewX(-3deg);
+  font-size: clamp(2.6rem, 5vw, 4rem);
+  font-weight: 900;
+  line-height: 0.94;
+  letter-spacing: -0.01em;
+}
+
+.intro {
+  margin: 20px 0 0;
+  max-width: 560px;
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: var(--color-gray);
+}
+
+.layout {
+  display: grid;
+  grid-template-columns: minmax(0, 8fr) minmax(0, 4fr);
+  gap: 32px;
+  align-items: start;
+}
+
+.stage svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  overflow: visible;
+}
+
+.float {
+  animation: drift var(--dur, 7s) ease-in-out var(--delay, 0s) infinite alternate;
+  transition: opacity 0.25s ease;
+}
+
+.stage[data-paused='true'] .float {
+  animation-play-state: paused;
+}
+
+.float[data-dim='true'] {
+  opacity: 0.5;
+}
+
+@keyframes drift {
+  from {
+    transform: translate(-5px, -4px);
+  }
+
+  to {
+    transform: translate(5px, 6px);
+  }
+}
+
+.bubble {
+  cursor: pointer;
+  outline: none;
+}
+
+.disc {
+  transition: stroke-width 0.2s ease;
+  stroke: var(--color-black);
+  stroke-width: 0;
+}
+
+.disc[data-on='true'] {
+  stroke-width: 5;
+}
+
+.bubble:focus-visible .disc {
+  stroke: var(--color-black);
+  stroke-width: 5;
+  stroke-dasharray: 8 6;
+}
+
+.label,
+.count {
+  fill: var(--color-white);
+  font-weight: 900;
+  text-anchor: middle;
+  pointer-events: none;
+}
+
+.count {
+  font-weight: 700;
+  opacity: 0.9;
+}
+
+.legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 24px;
+  margin: 16px 0 0;
+  padding: 0;
+  list-style: none;
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+}
+
+.legend li {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.legend i {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+}
+
+.panel {
+  min-height: 420px;
+  padding: 32px;
+  background: var(--color-card-bg);
+  clip-path: polygon(24px 0, 100% 0, 100% calc(100% - 24px), calc(100% - 24px) 100%, 0 100%, 0 24px);
+}
+
+.panelKicker {
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+}
+
+.panelTitle {
+  margin: 6px 0 0;
+  font-size: clamp(1.8rem, 3vw, 2.4rem);
+  font-weight: 900;
+  line-height: 1;
+}
+
+.facts {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  margin-top: 24px;
+}
+
+.facts strong {
+  display: block;
+  font-size: 1.5rem;
+  font-weight: 900;
+  line-height: 1;
+}
+
+.facts span {
+  display: block;
+  margin-top: 6px;
+  font-size: 0.58rem;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  color: var(--color-gray);
+}
+
+.bar {
+  height: 6px;
+  margin-top: 20px;
+  background: rgba(0, 0, 0, 0.08);
+}
+
+.bar i {
+  display: block;
+  height: 100%;
+}
+
+.listTitle {
+  margin: 28px 0 10px;
+  font-size: 0.62rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  color: var(--color-gray);
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.list li {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+.list a {
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--color-black);
+  text-decoration: none;
+  overflow-wrap: anywhere;
+  transition: color 0.2s ease;
+}
+
+.list a:hover,
+.list a:focus-visible {
+  color: var(--color-red);
+}
+
+.list span {
+  flex-shrink: 0;
+  font-size: 0.65rem;
+  font-weight: 700;
+  color: var(--color-gray);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .float {
+    animation: none;
+  }
+}
+
+@media (max-width: 1023px) {
+  .section {
+    padding: 80px 20px;
+  }
+
+  .layout {
+    grid-template-columns: 1fr;
+  }
+
+  .panel {
+    min-height: 0;
+  }
+}
+
+@media (max-width: 680px) {
+  .stage {
+    overflow-x: auto;
+    padding-bottom: 8px;
+  }
+
+  .stage svg {
+    min-width: 640px;
+  }
+}

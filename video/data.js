@@ -41,7 +41,9 @@ export const recap = {
       tags: ['PHP', 'TYPESCRIPT', 'PYTHON'],
     },
   ],
-  other: 23, // 203 minus the 180 repos counted in the three roles above
+  // The 12 backend repos overlap the web ones (9 are PHP/TS), so the repo grid only
+  // partitions by language group: 154 web + 14 mobile + 35 other = 203.
+  other: 35,
   exploring: ['KNN', 'NAIVE BAYES', 'LSTM', 'CNN', 'YOLO'],
   links: [
     { label: 'LINKEDIN', text: 'KHAIRUL HUDA' },

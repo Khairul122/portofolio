@@ -1,0 +1,204 @@
+/* Dark layer. A centre rail fills as you scroll; cards alternate left and right. */
+.section {
+  --round: clamp(22px, 3.2vw, 44px);
+  position: relative;
+  background: var(--color-black);
+  color: var(--color-white);
+  padding: 120px 48px 140px;
+  border-radius: var(--round) var(--round) 0 0;
+  box-shadow: 0 -30px 70px rgba(0, 0, 0, 0.35);
+}
+
+.inner {
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.header {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  margin-bottom: 64px;
+}
+
+.eyebrow {
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+}
+
+.hash {
+  color: var(--color-red);
+}
+
+.title {
+  margin: 18px 0 0;
+  display: flex;
+  flex-direction: column;
+  transform: skewX(-3deg);
+  font-size: clamp(2.6rem, 5vw, 4rem);
+  font-weight: 900;
+  line-height: 0.94;
+  letter-spacing: -0.01em;
+}
+
+.intro {
+  margin: 20px 0 0;
+  max-width: 560px;
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: #b4b9c2;
+}
+
+.timeline {
+  position: relative;
+}
+
+.rail {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  width: 3px;
+  margin-left: -1.5px;
+  background: rgba(255, 255, 255, 0.14);
+}
+
+.railFill {
+  width: 100%;
+  height: 100%;
+  background: var(--color-red);
+  transform-origin: top;
+}
+
+.list {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 56px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.item {
+  position: relative;
+  display: flex;
+  width: 50%;
+  padding-right: 56px;
+}
+
+.right {
+  margin-left: 50%;
+  padding-right: 0;
+  padding-left: 56px;
+}
+
+.node {
+  position: absolute;
+  top: 28px;
+  right: -9px;
+  width: 18px;
+  height: 18px;
+  background: var(--color-black);
+  border: 3px solid rgba(255, 255, 255, 0.35);
+  border-radius: 50%;
+  transition: background 0.3s ease, border-color 0.3s ease, transform 0.3s ease;
+}
+
+.right .node {
+  right: auto;
+  left: -9px;
+}
+
+.item[data-lit='true'] .node {
+  background: var(--color-red);
+  border-color: var(--color-white);
+  transform: scale(1.25);
+}
+
+.card {
+  position: relative;
+  width: 100%;
+  padding: 26px 28px 24px;
+  color: var(--color-black);
+  background: var(--color-card-bg);
+  clip-path: polygon(22px 0, 100% 0, 100% calc(100% - 22px), calc(100% - 22px) 100%, 0 100%, 0 22px);
+}
+
+.date {
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  color: #b0241c;
+}
+
+.cardTitle {
+  margin: 8px 0 0;
+  font-size: 1.15rem;
+  font-weight: 900;
+  letter-spacing: 0.02em;
+}
+
+.text {
+  margin: 10px 0 0;
+  font-size: 0.88rem;
+  line-height: 1.55;
+}
+
+.repo {
+  display: inline-block;
+  margin-top: 14px;
+  font-family: ui-monospace, 'Cascadia Code', Consolas, monospace;
+  font-size: 0.74rem;
+  font-weight: 700;
+  color: var(--color-black);
+  text-decoration: none;
+  border-bottom: 2px solid var(--color-black);
+  overflow-wrap: anywhere;
+  transition: color 0.2s ease, border-color 0.2s ease;
+}
+
+.repo::after {
+  content: ' \2197';
+}
+
+.repo:hover,
+.repo:focus-visible {
+  color: var(--color-red);
+  border-color: var(--color-red);
+}
+
+.number {
+  position: absolute;
+  top: 24px;
+  right: 28px;
+  font-size: 0.62rem;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  color: var(--color-gray);
+}
+
+@media (max-width: 860px) {
+  .section {
+    padding: 80px 20px 100px;
+  }
+
+  .rail {
+    left: 11px;
+  }
+
+  .item,
+  .right {
+    width: 100%;
+    margin-left: 0;
+    padding: 0 0 0 40px;
+  }
+
+  .node,
+  .right .node {
+    top: 28px;
+    right: auto;
+    left: 2px;
+  }
+}

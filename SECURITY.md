@@ -21,6 +21,8 @@ Hasil audit kode: tidak ada `innerHTML`, `dangerouslySetInnerHTML`, `eval`, `doc
 
 Diuji pada build produksi (`npm run preview`): model 3D, font, dan semua fitur tetap jalan di bawah CSP, tidak ada request ke origin eksternal, dan CSP terbukti memblokir skrip inline, skrip eksternal, dan gambar eksternal yang disisipkan paksa.
 
+Satu domain eksternal diizinkan di `connect-src`: `https://api.github.com`, hanya untuk membaca daftar repo publik (data section Projects dan sejenisnya). Tidak ada kredensial, dan bila gagal situs memakai snapshot bawaan.
+
 Dua kelonggaran CSP yang disengaja:
 - `style-src 'unsafe-inline'`: framer-motion menulis atribut `style` inline. Risikonya terbatas pada styling, bukan eksekusi skrip.
 - `script-src 'wasm-unsafe-eval'`: dekoder meshopt untuk model 3D adalah WebAssembly.

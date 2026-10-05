@@ -211,7 +211,7 @@ const Hello = ({ u, portrait }) => {
 // 203 cells, one per public repo, in a 29 x 7 grid. Colour = role, in order.
 const CELLS = (() => {
   const out = []
-  recap.roles.forEach((r) => out.push(...Array(r.value).fill(r.color)))
+  recap.roles.slice(0, 2).forEach((r) => out.push(...Array(r.value).fill(r.color)))
   out.push(...Array(recap.other).fill('#9aa0aa'))
   return out
 })()
@@ -262,7 +262,7 @@ const Github = ({ u, portrait }) => {
         })}
       </div>
       <div style={{ display: 'flex', gap: 36 * u, flexWrap: 'wrap' }}>
-        {[...recap.roles.map((r) => [r.title[0], r.color]), ['OTHER', '#9aa0aa']].map(([name, color], i) => (
+        {[...recap.roles.slice(0, 2).map((r) => [r.title[0], r.color]), ['OTHER', '#9aa0aa']].map(([name, color], i) => (
           <LegendItem key={name} name={name} color={color} u={u} delay={110 + i * 6} />
         ))}
       </div>

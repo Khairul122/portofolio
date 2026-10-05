@@ -13,7 +13,7 @@ export const cspDirectives = {
   'style-src': ["'self'", "'unsafe-inline'"],
   'img-src': ["'self'", 'data:', 'blob:'],
   'font-src': ["'self'"],
-  'connect-src': ["'self'", 'blob:', 'data:'],
+  'connect-src': ["'self'", 'blob:', 'data:', 'https://api.github.com'],
   'worker-src': ["'self'", 'blob:'],
   'media-src': ["'self'"],
   'object-src': ["'none'"],
