@@ -139,7 +139,7 @@
   font-size: 0.56rem;
   font-weight: 800;
   letter-spacing: 0.04em;
-  color: var(--color-red);
+  color: color-mix(in srgb, var(--color-red) 72%, #000);
   border: 1px solid color-mix(in srgb, var(--color-red) 30%, transparent);
   border-radius: 999px;
   padding: 2px 8px;
@@ -173,7 +173,7 @@
 }
 
 .name span:last-child {
-  color: var(--color-red);
+  color: color-mix(in srgb, var(--color-red) 72%, #000);
 }
 
 .role {

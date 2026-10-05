@@ -9,7 +9,7 @@ import Hero from './components/Hero/Hero'
 import Heatmap from './components/Journey/Heatmap'
 import Journey from './components/Journey/Journey'
 import Projects from './components/Projects/Projects'
-import Terminal from './components/Terminal/Terminal'
+import Answers from './components/Answers/Answers'
 import TechStack from './components/TechStack/TechStack'
 import Layer from './components/Shared/Layer'
 import SectionNav from './components/Shared/SectionNav'
@@ -40,7 +40,7 @@ const LAYERS = [
   { id: 'projects', Section: Projects, ref: createRef() },
   { id: 'stack', Section: TechStack, ref: createRef() },
   { id: 'journey', Section: JourneyLayer, ref: createRef() },
-  { id: 'terminal', Section: Terminal, ref: createRef() },
+  { id: 'answers', Section: Answers, ref: createRef() },
   { id: 'intro', Section: IntroVideo, ref: createRef() },
   { id: 'contact', Section: ContactLayer, ref: createRef() },
 ]

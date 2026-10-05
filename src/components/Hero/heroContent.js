@@ -27,7 +27,7 @@ export const avatarProfiles = {
     },
     character: {
       label: 'CHARACTER',
-      draft: 'LV. 5+',
+      draft: 'SINCE 2021',
       titleLines: ['WEB', 'DEVELOPER'],
       nickname: 'THE SHIPPER',
       bio: 'Turning PHP and JavaScript into 154 shipped web repositories.',
@@ -50,7 +50,7 @@ export const avatarProfiles = {
     },
     character: {
       label: 'CHARACTER',
-      draft: 'LV. 5+',
+      draft: 'SINCE 2021',
       titleLines: ['ANDROID', 'DEVELOPER'],
       nickname: 'THE APK SHIPPER',
       bio: 'Turning Dart and Kotlin into 14 mobile app builds.',
@@ -73,7 +73,7 @@ export const avatarProfiles = {
     },
     character: {
       label: 'CHARACTER',
-      draft: 'LV. 5+',
+      draft: 'SINCE 2021',
       titleLines: ['SAAS', 'DEVELOPER'],
       nickname: 'THE API SHIPPER',
       bio: 'Turning PHP and TypeScript into 12 backend service repositories.',

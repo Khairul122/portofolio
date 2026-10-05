@@ -150,7 +150,7 @@
   font-size: 0.66rem;
   font-weight: 800;
   letter-spacing: 0.12em;
-  color: var(--color-red);
+  color: color-mix(in srgb, var(--color-red) 72%, #000);
 }
 
 .channelValue {

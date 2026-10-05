@@ -2,29 +2,13 @@
 // claim what the repo names, languages and counts support.
 export const REPO_BASE = 'https://github.com/Khairul122/'
 
-export const GROUP_ACCENT = {
-  web: '#e8342a',
-  mobile: '#14803f',
-  backend: '#2563eb',
-  iot: '#15181d',
-  ai: '#15181d',
-}
-
 export const capabilitiesContent = {
-  eyebrow: 'WHAT I CAN DO',
-  title: ['WHAT', 'I CAN DO'],
-  intro: 'Each item below links to real repositories, so the work can be checked instead of taken on trust.',
-  filters: [
-    { id: 'all', label: 'ALL' },
-    { id: 'web', label: 'WEB' },
-    { id: 'mobile', label: 'MOBILE' },
-    { id: 'backend', label: 'BACKEND' },
-    { id: 'iot', label: 'IOT' },
-    { id: 'ai', label: 'AI' },
-  ],
+  title: ['KINDS', 'OF WORK'],
+  intro: 'Six kinds of work I have shipped. Open one to see the real repositories behind it, so the claim can be checked.',
   items: [
     {
       title: 'BUSINESS WEB SYSTEMS',
+      color: '#b0241c',
       groups: ['web'],
       desc: 'Management systems for day-to-day records, built on PHP and Laravel.',
       stack: ['PHP', 'LARAVEL', 'BLADE'],
@@ -32,6 +16,7 @@ export const capabilitiesContent = {
     },
     {
       title: 'ONLINE STORES',
+      color: '#7f1d17',
       groups: ['web', 'mobile'],
       desc: 'Storefronts on the web and as mobile apps.',
       stack: ['PHP', 'FLUTTER', 'KOTLIN'],
@@ -39,6 +24,7 @@ export const capabilitiesContent = {
     },
     {
       title: 'MOBILE APPS',
+      color: '#14803f',
       groups: ['mobile'],
       desc: 'Flutter apps and native Kotlin apps for Android.',
       stack: ['DART', 'FLUTTER', 'KOTLIN'],
@@ -46,6 +32,7 @@ export const capabilitiesContent = {
     },
     {
       title: 'BACKEND SERVICES',
+      color: '#2563eb',
       groups: ['backend'],
       desc: 'APIs that sit behind web and mobile front ends.',
       stack: ['PHP', 'TYPESCRIPT', 'PYTHON'],
@@ -53,6 +40,7 @@ export const capabilitiesContent = {
     },
     {
       title: 'IOT AND DEVICES',
+      color: '#15181d',
       groups: ['iot'],
       desc: 'Arduino projects that connect hardware to software.',
       stack: ['ARDUINO', 'IOT'],
@@ -60,6 +48,7 @@ export const capabilitiesContent = {
     },
     {
       title: 'MACHINE LEARNING AND VISION',
+      color: '#3a404b',
       groups: ['ai'],
       desc: 'Classical models and object detection, some with a web front end.',
       stack: ['PYTHON', 'YOLO'],

@@ -50,7 +50,7 @@ function Avatar({ pointer, modelUrl, targetHeight, tilt, reduceMotion, reflect }
     }
   }, [modelUrl, reduceMotion])
 
-  // Meshy exports arrive with arbitrary scale/pivot — normalize so the
+  // Meshy exports arrive with arbitrary scale/pivot - normalize so the
   // model stands at a consistent height, centered, feet on the floor.
   const model = useMemo(() => {
     const clone = scene.clone(true)

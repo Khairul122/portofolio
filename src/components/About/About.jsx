@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { motion, useInView } from 'framer-motion'
 import CountUp from '../Hero/CountUp'
-import { spotlightMove } from '../Hero/spotlight'
+import { useGithub } from '../../data/GithubProvider'
 import RevealText from '../Shared/RevealText'
 import Lanyard from './Lanyard'
 import { aboutContent } from './aboutContent'
@@ -14,81 +14,29 @@ const REVEAL = {
   transition: { duration: 0.6, ease: 'easeOut' },
 }
 
-function RoleCard({ role, index }) {
-  return (
-    <motion.article
-      className={styles.card}
-      style={{ '--color-red': role.accent }}
-      onPointerMove={spotlightMove}
-      {...REVEAL}
-      transition={{ ...REVEAL.transition, delay: index * 0.08 }}
-    >
-      <div className={styles.tickMark} />
-      <div className={styles.topRow}>
-        <h3 className={styles.roleTitle}>{role.title}</h3>
-        <span className={styles.badge}>{role.badge}</span>
-      </div>
-      <p className={styles.desc}>{role.desc}</p>
-      <p className={styles.examples}>{role.examples}</p>
-    </motion.article>
-  )
-}
-
-function ActivityCard({ activity }) {
+// One row per kind of work, the number is the real repo count for that group.
+function LedgerRow({ role, count }) {
   const ref = useRef(null)
-  const inView = useInView(ref, { once: true, amount: 0.4 })
-  const max = Math.max(...activity.years.map((y) => y.value))
+  const inView = useInView(ref, { once: true, amount: 0.5 })
 
   return (
-    <motion.div className={`${styles.card} ${styles.activityCard}`} onPointerMove={spotlightMove} {...REVEAL}>
-      <div className={styles.tickMark} />
-      <div className={styles.topRow}>
-        <h3 className={styles.roleTitle}>{activity.label}</h3>
+    <motion.li
+      ref={ref}
+      className={styles.row}
+      style={{ '--accent': role.accent }}
+      initial={{ opacity: 0, x: -40 }}
+      whileInView={{ opacity: 1, x: 0 }}
+      viewport={{ once: true, amount: 0.3 }}
+      transition={{ duration: 0.6, ease: 'easeOut' }}
+    >
+      <span className={styles.count}>{inView ? <CountUp value={count} /> : 0}</span>
+      <div className={styles.rowMain}>
+        <h3 className={styles.roleTitle}>{role.title}</h3>
+        <p className={styles.desc}>{role.desc}</p>
       </div>
-      <div ref={ref} className={styles.chart}>
-        {inView &&
-          activity.years.map((y, i) => (
-            <div key={y.year} className={styles.column}>
-              <span className={styles.columnValue}>
-                <CountUp value={y.value} delay={0.1 * i} />
-              </span>
-              <div className={styles.columnTrack}>
-                <motion.div
-                  className={styles.columnFill}
-                  initial={{ height: 0 }}
-                  animate={{ height: `${(y.value / max) * 100}%` }}
-                  transition={{ duration: 0.9, delay: 0.1 * i, ease: 'easeOut' }}
-                />
-              </div>
-              <span className={styles.columnYear}>{y.year}</span>
-            </div>
-          ))}
-      </div>
-      <p className={styles.note}>{activity.note}</p>
-    </motion.div>
+      <p className={styles.examples}>{role.examples}</p>
+    </motion.li>
   )
-}
-
-function useGithubStats(username) {
-  const [stats, setStats] = useState(null)
-  useEffect(() => {
-    let cancelled = false
-    fetch(`https://api.github.com/users/${username}`)
-      .then((res) => (res.ok ? res.json() : null))
-      .then((data) => {
-        if (!cancelled && data) {
-          setStats({
-            publicRepos: data.public_repos,
-            sinceYear: new Date(data.created_at).getFullYear(),
-          })
-        }
-      })
-      .catch(() => {})
-    return () => {
-      cancelled = true
-    }
-  }, [username])
-  return stats
 }
 
 // Show the CV button only when a real PDF is served (a missing file would
@@ -110,15 +58,13 @@ function useFileExists(href) {
 }
 
 export default function About() {
-  const { eyebrow, name, tagline, intro, cta, cv, card, roles, activity } = aboutContent
+  const { eyebrow, name, tagline, intro, cta, cv, card, roles } = aboutContent
   const hasCv = useFileExists(cv.href)
-  const stats = useGithubStats('Khairul122')
-
-  const sinceYear = stats?.sinceYear ?? 2021
-  const repoCount = stats?.publicRepos ?? 203
+  // Same source as every other section, so the numbers never disagree.
+  const { sinceYear, total, groupCount } = useGithub()
 
   const dynamicIntro = intro.map((p) =>
-    p.replace(/\d+\s+public repositories/i, `${repoCount} public repositories`)
+    p.replace(/\d+\s+public repositories/i, `${total} public repositories`)
   )
   const dynamicCard = {
     ...card,
@@ -157,11 +103,14 @@ export default function About() {
           <Lanyard card={dynamicCard} />
         </div>
 
-        <div className={styles.grid}>
-          {roles.map((role, i) => (
-            <RoleCard key={role.title} role={role} index={i} />
-          ))}
-          <ActivityCard activity={activity} />
+        <div className={styles.ledger}>
+          <h3 className={styles.ledgerTitle}>WHERE THE REPOSITORIES GO</h3>
+          <ol className={styles.rows}>
+            {roles.map((role) => (
+              <LedgerRow key={role.title} role={role} count={groupCount(role.group)} />
+            ))}
+          </ol>
+          <p className={styles.ledgerNote}>A repository can count in more than one row, for example a Laravel API is both web and backend.</p>
         </div>
       </div>
     </section>

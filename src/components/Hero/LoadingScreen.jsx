@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import { createPortal } from 'react-dom'
 import { useProgress } from '@react-three/drei'
 import { AnimatePresence, motion } from 'framer-motion'
 import styles from './LoadingScreen.module.css'
@@ -17,7 +18,9 @@ export default function LoadingScreen({ onLoaded }) {
     }
   }, [progress, active, done, onLoaded])
 
-  return (
+  // Portalled to <body>: inside the Hero layer it would sit under the later layers (and a
+  // transformed ancestor breaks position: fixed), so a reload mid-page never showed it.
+  return createPortal(
     <AnimatePresence>
       {!done && (
         <motion.div className={styles.overlay} exit={{ opacity: 0 }} transition={{ duration: 0.6, ease: 'easeInOut' }}>
@@ -31,6 +34,7 @@ export default function LoadingScreen({ onLoaded }) {
           <p className={styles.percent}>{Math.round(Math.min(progress, 100))}%</p>
         </motion.div>
       )}
-    </AnimatePresence>
+    </AnimatePresence>,
+    document.body,
   )
 }

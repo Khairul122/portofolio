@@ -1,40 +1,43 @@
 import { useMemo, useState } from 'react'
-import { AnimatePresence, motion } from 'framer-motion'
+import { motion } from 'framer-motion'
 import { formatDate, GROUPS, LANG_COLOR, REPO_URL } from '../../data/githubStats'
 import { useGithub } from '../../data/GithubProvider'
 import DataSource from '../Shared/DataSource'
-import { spotlightMove } from '../Hero/spotlight'
 import RevealText from '../Shared/RevealText'
 import styles from './Projects.module.css'
 
-const PAGE = 9
+const PAGE = 20
+const GROUP_BY_ID = Object.fromEntries(GROUPS.map((g) => [g.id, g]))
 const SORTS = [
   { id: 'new', label: 'NEWEST', fn: (a, b) => b.date.localeCompare(a.date) },
   { id: 'old', label: 'OLDEST', fn: (a, b) => a.date.localeCompare(b.date) },
-  { id: 'live', label: 'LIVE DEMO FIRST', fn: (a, b) => Number(Boolean(b.live)) - Number(Boolean(a.live)) || b.date.localeCompare(a.date) },
+  { id: 'az', label: 'A TO Z', fn: (a, b) => a.name.localeCompare(b.name, undefined, { sensitivity: 'base' }) },
 ]
-const GROUP_BY_ID = Object.fromEntries(GROUPS.map((g) => [g.id, g]))
 
 export default function Projects() {
-  const { repos, total, liveCount, groupCount } = useGithub()
-  const filters = useMemo(() => [{ id: 'all', label: 'ALL', count: total }, ...GROUPS.map((g) => ({ ...g, count: groupCount(g.id) }))], [total, groupCount])
+  const { repos, total, groupCount } = useGithub()
   const [group, setGroup] = useState('all')
   const [query, setQuery] = useState('')
   const [sort, setSort] = useState('new')
   const [shown, setShown] = useState(PAGE)
 
+  const live = useMemo(() => repos.filter((r) => r.live).sort((a, b) => b.date.localeCompare(a.date)), [repos])
+  const filters = useMemo(
+    () => [{ id: 'all', label: 'ALL', count: total }, ...GROUPS.map((g) => ({ ...g, count: groupCount(g.id) }))],
+    [total, groupCount],
+  )
   const list = useMemo(() => {
     const q = query.trim().toLowerCase()
     const sorter = SORTS.find((s) => s.id === sort).fn
     return repos
       .filter((r) => group === 'all' || r.groups.includes(group))
-      .filter((r) => !q || `${r.name} ${r.title} ${r.desc || ''} ${r.lang || ''}`.toLowerCase().includes(q))
+      .filter((r) => !q || `${r.name} ${r.desc || ''} ${r.lang || ''}`.toLowerCase().includes(q))
       .sort(sorter)
   }, [repos, group, query, sort])
 
   const visible = list.slice(0, shown)
-  const reset = (fn) => (value) => {
-    fn(value)
+  const change = (setter) => (value) => {
+    setter(value)
     setShown(PAGE)
   }
 
@@ -48,17 +51,53 @@ export default function Projects() {
           viewport={{ once: true, amount: 0.25 }}
           transition={{ duration: 0.6, ease: 'easeOut' }}
         >
-          <span className={styles.eyebrow}>
-            <span className={styles.hash}>//</span> PROJECTS
-          </span>
-          <h2 className={styles.title}>
-            <RevealText lines={['EVERY REPO,', 'ONE PLACE']} />
-          </h2>
-          <p className={styles.intro}>
-            All {total} public repositories, searchable and filterable. {liveCount} of them have a live demo you can open.
-          </p>
+          <div>
+            <h2 className={styles.title}>
+              <RevealText lines={['EVERY', 'REPOSITORY']} />
+            </h2>
+            <DataSource />
+          </div>
+          <dl className={styles.figures}>
+            <div>
+              <dt>PUBLIC REPOSITORIES</dt>
+              <dd>{total}</dd>
+            </div>
+            <div>
+              <dt>WITH A LIVE DEMO</dt>
+              <dd>{live.length}</dd>
+            </div>
+          </dl>
+        </motion.header>
 
-          <DataSource />
+        {live.length > 0 && (
+          <div className={styles.liveBlock}>
+            <h3 className={styles.blockTitle}>LIVE DEMOS</h3>
+            <ul className={styles.live}>
+              {live.map((r, i) => (
+                <motion.li
+                  key={r.name}
+                  className={styles.liveCard}
+                  initial={{ opacity: 0, y: 36 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, amount: 0.2 }}
+                  transition={{ duration: 0.5, delay: (i % 3) * 0.08, ease: 'easeOut' }}
+                >
+                  <span className={styles.liveMeta}>
+                    {formatDate(r.date)}
+                    {r.lang && ` / ${r.lang}`}
+                  </span>
+                  <h4 className={styles.liveName}>{r.name}</h4>
+                  <a className={styles.liveOpen} href={r.live} target="_blank" rel="noopener noreferrer">
+                    {r.live.replace('https://', '')}
+                  </a>
+                </motion.li>
+              ))}
+            </ul>
+          </div>
+        )}
+
+        <div className={styles.indexBlock}>
+          <h3 className={styles.blockTitle}>ALL REPOSITORIES</h3>
 
           <div className={styles.controls}>
             <label className={styles.search}>
@@ -68,7 +107,7 @@ export default function Projects() {
                 value={query}
                 maxLength={40}
                 placeholder="Search by name, language or keyword"
-                onChange={(e) => reset(setQuery)(e.target.value)}
+                onChange={(e) => change(setQuery)(e.target.value)}
               />
             </label>
             <div className={styles.sorts} role="group" aria-label="Sort">
@@ -78,7 +117,7 @@ export default function Projects() {
                   type="button"
                   aria-pressed={s.id === sort}
                   className={`${styles.sort} ${s.id === sort ? styles.sortActive : ''}`}
-                  onClick={() => reset(setSort)(s.id)}
+                  onClick={() => change(setSort)(s.id)}
                 >
                   {s.label}
                 </button>
@@ -92,85 +131,78 @@ export default function Projects() {
                 key={f.id}
                 type="button"
                 aria-pressed={f.id === group}
-                onClick={() => reset(setGroup)(f.id)}
+                onClick={() => change(setGroup)(f.id)}
                 className={`${styles.filter} ${f.id === group ? styles.filterActive : ''}`}
               >
-                {f.id === group && (
-                  <motion.span
-                    layoutId="project-filter-pill"
-                    className={styles.filterPill}
-                    transition={{ type: 'spring', stiffness: 400, damping: 34 }}
-                  />
-                )}
-                <span className={styles.filterLabel}>
-                  {f.label} <span className={styles.filterCount}>{f.count}</span>
-                </span>
+                {f.label} <span className={styles.filterCount}>{f.count}</span>
               </button>
             ))}
           </div>
-        </motion.header>
 
-        <p className={styles.status} aria-live="polite">
-          Showing {visible.length} of {list.length}
-        </p>
+          <p className={styles.status} aria-live="polite">
+            Showing {visible.length} of {list.length}
+          </p>
 
-        {list.length === 0 ? (
-          <p className={styles.empty}>No repository matches that search. Try a shorter keyword.</p>
-        ) : (
-          <motion.div layout className={styles.grid}>
-            <AnimatePresence mode="popLayout">
-              {visible.map((r, i) => (
-                <motion.article
-                  key={r.name}
-                  layout
-                  initial={{ opacity: 0, y: 36, scale: 0.97 }}
-                  animate={{ opacity: 1, y: 0, scale: 1 }}
-                  exit={{ opacity: 0, scale: 0.95 }}
-                  transition={{ duration: 0.45, delay: Math.min(i % PAGE, 8) * 0.04, ease: 'easeOut' }}
-                  className={styles.card}
-                  onPointerMove={spotlightMove}
-                >
-                  <div className={styles.meta}>
-                    <span>{formatDate(r.date)}</span>
-                    {r.live && <span className={styles.liveBadge}>LIVE</span>}
-                  </div>
-                  <h3 className={styles.cardTitle}>{r.title}</h3>
-                  <code className={styles.repoName}>{r.name}</code>
-                  {r.desc && <p className={styles.desc}>{r.desc}</p>}
-                  <div className={styles.tags}>
-                    {r.lang && (
-                      <span className={styles.lang}>
-                        <i style={{ background: LANG_COLOR[r.lang] || '#6b7280' }} aria-hidden="true" />
-                        {r.lang}
-                      </span>
-                    )}
-                    {r.groups.map((g) => (
-                      <span key={g} className={styles.tag} style={{ '--tag': GROUP_BY_ID[g].color }}>
-                        {GROUP_BY_ID[g].label}
-                      </span>
-                    ))}
-                  </div>
-                  <div className={styles.links}>
-                    <a href={`${REPO_URL}${r.name}`} target="_blank" rel="noopener noreferrer">
-                      REPOSITORY
-                    </a>
-                    {r.live && (
-                      <a href={r.live} target="_blank" rel="noopener noreferrer" className={styles.liveLink}>
-                        LIVE DEMO
+          {list.length === 0 ? (
+            <p className={styles.empty}>No repository matches that search. Try a shorter keyword or another group.</p>
+          ) : (
+            <table className={styles.table}>
+              <thead>
+                <tr>
+                  <th scope="col" className={styles.colDate}>
+                    DATE
+                  </th>
+                  <th scope="col">REPOSITORY</th>
+                  <th scope="col" className={styles.colLang}>
+                    LANGUAGE
+                  </th>
+                  <th scope="col" className={styles.colGroups}>
+                    GROUPS
+                  </th>
+                  <th scope="col" className={styles.colLinks}>
+                    LINKS
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                {visible.map((r, i) => (
+                  <tr key={r.name} style={{ animationDelay: `${(i % PAGE) * 18}ms` }}>
+                    <td className={styles.colDate}>{formatDate(r.date)}</td>
+                    <td>
+                      <a className={styles.name} href={`${REPO_URL}${r.name}`} target="_blank" rel="noopener noreferrer">
+                        {r.name}
                       </a>
-                    )}
-                  </div>
-                </motion.article>
-              ))}
-            </AnimatePresence>
-          </motion.div>
-        )}
+                      <span className={styles.stackedDate}>{formatDate(r.date)}</span>
+                      {r.desc && <span className={styles.rowDesc}>{r.desc}</span>}
+                    </td>
+                    <td className={styles.colLang}>
+                      {r.lang && (
+                        <span className={styles.lang}>
+                          <i style={{ background: LANG_COLOR[r.lang] || '#8d93a0' }} aria-hidden="true" />
+                          {r.lang}
+                        </span>
+                      )}
+                    </td>
+                    <td className={styles.colGroups}>{r.groups.map((g) => GROUP_BY_ID[g].label).join(', ')}</td>
+                    <td className={styles.colLinks}>
+                      {r.live && (
+                        <a className={styles.liveLink} href={r.live} target="_blank" rel="noopener noreferrer">
+                          LIVE
+                        </a>
+                      )}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          )}
 
-        {list.length > shown && (
-          <button type="button" className={styles.more} onClick={() => setShown((n) => n + PAGE)}>
-            SHOW {Math.min(PAGE, list.length - shown)} MORE
-          </button>
-        )}
+          {list.length > shown && (
+            <button type="button" className={styles.more} onClick={() => setShown((n) => n + PAGE)}>
+              SHOW {Math.min(PAGE, list.length - shown)} MORE
+            </button>
+          )}
+        </div>
       </div>
     </section>
   )

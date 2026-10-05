@@ -1,7 +1,7 @@
 .overlay {
   position: fixed;
   inset: 0;
-  z-index: 50;
+  z-index: 1000;
   background: var(--color-black);
   display: flex;
   flex-direction: column;

@@ -1,98 +1,75 @@
 import { useState } from 'react'
-import { AnimatePresence, motion } from 'framer-motion'
-import { spotlightMove } from '../Hero/spotlight'
+import { motion } from 'framer-motion'
 import RevealText from '../Shared/RevealText'
-import { capabilitiesContent, GROUP_ACCENT, REPO_BASE } from './capabilitiesContent'
+import { capabilitiesContent, REPO_BASE } from './capabilitiesContent'
 import styles from './Capabilities.module.css'
 
-const REVEAL = {
-  initial: { opacity: 0, y: 28 },
-  whileInView: { opacity: 1, y: 0 },
-  viewport: { once: true, amount: 0.25 },
-  transition: { duration: 0.6, ease: 'easeOut' },
-}
-
+// Panels that fold open. One kind of work is open at a time, so the open one can
+// show its real repositories at a readable size instead of squeezing six cards.
 export default function Capabilities() {
-  const { eyebrow, title, intro, filters, items } = capabilitiesContent
-  const [filter, setFilter] = useState('all')
-  const visible = items.filter((item) => filter === 'all' || item.groups.includes(filter))
+  const { title, intro, items } = capabilitiesContent
+  const [open, setOpen] = useState(0)
 
   return (
     <section id="capabilities" className={styles.section}>
       <div className={styles.inner}>
-        <motion.header className={styles.header} {...REVEAL}>
-          <span className={styles.eyebrow}>
-            <span className={styles.hash}>//</span> {eyebrow}
-          </span>
+        <motion.header
+          className={styles.header}
+          initial={{ opacity: 0, y: 28 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.25 }}
+          transition={{ duration: 0.6, ease: 'easeOut' }}
+        >
           <h2 className={styles.title}>
             <RevealText lines={title} />
           </h2>
           <p className={styles.intro}>{intro}</p>
-
-          <div className={styles.filters}>
-            {filters.map((f) => (
-              <button
-                key={f.id}
-                type="button"
-                aria-pressed={f.id === filter}
-                onClick={() => setFilter(f.id)}
-                className={`${styles.filter} ${f.id === filter ? styles.filterActive : ''}`}
-              >
-                {f.id === filter && (
-                  <motion.span
-                    layoutId="filter-pill"
-                    className={styles.filterPill}
-                    transition={{ type: 'spring', stiffness: 400, damping: 34 }}
-                  />
-                )}
-                <span className={styles.filterLabel}>{f.label}</span>
-              </button>
-            ))}
-          </div>
         </motion.header>
 
-        <motion.div layout className={styles.grid}>
-          <AnimatePresence mode="popLayout">
-            {visible.map((item, i) => (
-              <motion.article
-                key={item.title}
-                layout
-                initial={{ opacity: 0, y: 40, scale: 0.96 }}
-                whileInView={{ opacity: 1, y: 0, scale: 1 }}
-                viewport={{ once: true, amount: 0.2 }}
-                exit={{ opacity: 0, scale: 0.94 }}
-                transition={{ duration: 0.5, delay: (i % 3) * 0.1, ease: 'easeOut' }}
-                className={styles.card}
-                style={{ '--color-red': GROUP_ACCENT[item.groups[0]] }}
-                onPointerMove={spotlightMove}
-              >
-                <div className={styles.tickMark} />
-                <h3 className={styles.cardTitle}>{item.title}</h3>
-                <p className={styles.desc}>{item.desc}</p>
-                <div className={styles.stack}>
-                  {item.stack.map((s) => (
-                    <span key={s} className={styles.tag}>
-                      {s}
-                    </span>
-                  ))}
+        <motion.div
+          className={styles.slats}
+          initial={{ opacity: 0, y: 40 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.15 }}
+          transition={{ duration: 0.7, ease: 'easeOut' }}
+        >
+          {items.map((item, i) => {
+            const on = i === open
+            return (
+              <div key={item.title} className={styles.slat} data-open={on} style={{ '--slat': item.color }}>
+                <button
+                  type="button"
+                  id={`cap-tab-${i}`}
+                  className={styles.head}
+                  aria-expanded={on}
+                  aria-controls={`cap-panel-${i}`}
+                  onClick={() => setOpen(i)}
+                >
+                  <span className={styles.num}>0{i + 1}</span>
+                  <span className={styles.slatTitle}>{item.title}</span>
+                </button>
+
+                <div id={`cap-panel-${i}`} role="region" aria-labelledby={`cap-tab-${i}`} className={styles.body} hidden={!on}>
+                  <p className={styles.desc}>{item.desc}</p>
+                  <ul className={styles.stack} aria-label="Stack">
+                    {item.stack.map((s) => (
+                      <li key={s}>{s}</li>
+                    ))}
+                  </ul>
+                  <h3 className={styles.reposTitle}>REAL REPOSITORIES</h3>
+                  <ul className={styles.repos}>
+                    {item.examples.map((name) => (
+                      <li key={name}>
+                        <a href={`${REPO_BASE}${name}`} target="_blank" rel="noopener noreferrer">
+                          {name}
+                        </a>
+                      </li>
+                    ))}
+                  </ul>
                 </div>
-                <div className={styles.examples}>
-                  <span className={styles.examplesLabel}>REAL REPOSITORIES</span>
-                  {item.examples.map((repo) => (
-                    <a
-                      key={repo}
-                      className={styles.repo}
-                      href={`${REPO_BASE}${repo}`}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      {repo}
-                    </a>
-                  ))}
-                </div>
-              </motion.article>
-            ))}
-          </AnimatePresence>
+              </div>
+            )
+          })}
         </motion.div>
       </div>
     </section>
